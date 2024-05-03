@@ -1,7 +1,8 @@
 package com.rossbach.service;
 
-import com.rossbach.UserRepository;
 import com.rossbach.entities.User;
+import com.rossbach.repositories.UserRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,15 @@ public class UserService {
     }
 
     public void createUser(User user) {
-        this.userRepository.save(user);
+        User userDansLaBDD = this.userRepository.findByEmail(user.getEmail());
+        User otherUserDansLaBDD = this.userRepository.findByUsername(user.getUsername());
+        if (userDansLaBDD == null && otherUserDansLaBDD == null) {
+            this.userRepository.save(user);
+        }
+        else {
+            throw new RuntimeException("Cet email ou ce nom d'utilisateur est déjà utilisé");
+        }
+        
     }
 
     public List<User> showUsers(){
