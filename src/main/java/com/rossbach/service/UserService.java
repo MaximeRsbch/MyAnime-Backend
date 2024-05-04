@@ -6,6 +6,7 @@ import com.rossbach.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -26,6 +27,16 @@ public class UserService {
             throw new RuntimeException("Cet email ou ce nom d'utilisateur est déjà utilisé");
         }
         
+    };
+
+    public void deleteUser(int id) {
+
+        this.userRepository.deleteById(id);
+    }
+
+    public User showUserById(int id) {
+        Optional<User> showUser = this.userRepository.findById(id);
+        return showUser.orElse(null);
     }
 
     public List<User> showUsers(){

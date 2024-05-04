@@ -25,6 +25,18 @@ public class UserController {
         this.userService.createUser(user);
     }
 
+    @DeleteMapping("{id}")
+    public void deleteUser(@PathVariable("id") int id) {
+        User showUser = this.userService.showUserById(id);
+        if (showUser == null){
+            throw new RuntimeException("Cet user n'existe pas");
+        }
+        else {
+            this.userService.deleteUser(id);
+        }
+
+    };
+
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public List<User> showUsers() {
         return this.userService.showUsers();
