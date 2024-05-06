@@ -1,6 +1,5 @@
 package com.rossbach.entities;
 
-import com.rossbach.enums.AnimeType;
 import jakarta.persistence.*;
 
 @Entity
