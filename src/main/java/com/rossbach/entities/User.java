@@ -2,6 +2,8 @@ package com.rossbach.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "USER")
 public class User {
@@ -58,4 +60,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

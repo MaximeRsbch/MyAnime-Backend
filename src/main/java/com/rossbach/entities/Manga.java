@@ -2,6 +2,8 @@ package com.rossbach.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "MANGA")
 public class Manga {
@@ -15,6 +17,8 @@ public class Manga {
     private int tomes;
     private int chapitres;
 
+
+
     public Manga() {
     }
 
@@ -24,6 +28,7 @@ public class Manga {
         this.synopsis = synopsis;
         this.tomes = tomes;
         this.chapitres = chapitres;
+
     }
 
     public int getId() {
