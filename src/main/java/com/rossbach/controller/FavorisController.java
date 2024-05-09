@@ -29,4 +29,10 @@ public class FavorisController {
     public List<Favoris> showFavoris(){
         return this.favorisService.showFavoris();
     }
+
+
+    @GetMapping(path = "{id}")
+    public Favoris showFavorisByID(@PathVariable int id){
+        return this.favorisService.showFavorisByID(id);
+    }
 }
