@@ -35,4 +35,9 @@ public class FavorisController {
     public Favoris showFavorisByID(@PathVariable int id){
         return this.favorisService.showFavorisByID(id);
     }
+
+    @DeleteMapping(path = "/user/{userId}")
+    public void deleteFavorisByUserId(@PathVariable int userId){
+        this.favorisService.deleteFavorisByUserId(userId);
+    }
 }

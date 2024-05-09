@@ -3,11 +3,13 @@ package com.rossbach.service;
 import com.rossbach.entities.Favoris;
 import com.rossbach.repositories.FavorisRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class FavorisService {
 
 
@@ -32,5 +34,9 @@ public class FavorisService {
 
     public void deleteFavoris(int id){
         this.favorisRepository.deleteById(id);
+    }
+
+    public void deleteFavorisByUserId(int userId){
+        this.favorisRepository.deleteByUserId(userId);
     }
 }
