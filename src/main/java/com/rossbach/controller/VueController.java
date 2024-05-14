@@ -15,18 +15,11 @@ public class VueController {
     private VueService vueService;
 
     private UserService userService;
-    private MangaService mangaService;
-    private AnimeService animeService;
-    private FilmService filmService;
-    private SerieService serieService;
 
-    public VueController(VueService vueService, UserService userService, MangaService mangaService, AnimeService animeService, FilmService filmService, SerieService serieService) {
+
+    public VueController(VueService vueService, UserService userService) {
         this.vueService = vueService;
         this.userService = userService;
-        this.mangaService = mangaService;
-        this.animeService = animeService;
-        this.filmService = filmService;
-        this.serieService = serieService;
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -43,8 +36,33 @@ public class VueController {
                 .body("La vue a bien été créer");
     }
 
-    @DeleteMapping(path = "/user/{userId}")
-    public void deleteVueByUserId(@PathVariable("userId") int userId) {
-        this.vueService.deleteVueByUserId(userId);
+    @DeleteMapping(path = "/user/{userId}/all")
+    public ResponseEntity<String> deleteVueByUserId(@PathVariable("userId") int userId) {
+        boolean userIdExistsInVue = this.vueService.checkIfUserIdExistsInVue(userId);
+        if(!userIdExistsInVue) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Aucune vue n'est associée à l'utilisateur avec l'ID " + userId);
+        }
+         this.vueService.deleteVueByUserId(userId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Les vues associées à l'utilisateur avec l'ID \" + userId + \" ont été supprimées avec succès\"");
     }
+
+    @DeleteMapping(path = "{vueId}/user/{userId}")
+    public ResponseEntity<String> deleteSingleVueByUserId(@PathVariable("userId") int userId, @PathVariable("vueId") int vueId) {
+        // Vérifier si la vue appartient à l'utilisateur
+        boolean vueBelongsToUser = this.vueService.checkIfVueBelongsToUser(userId, vueId);
+        if (!vueBelongsToUser) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("La vue spécifiée n'appartient pas à l'utilisateur avec l'ID " + userId);
+        }
+
+        // Supprimer la vue spécifique
+        this.vueService.deleteSingleVueByUserId(userId, vueId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("La vue avec l'ID " + vueId + " de l'utilisateur avec l'ID " + userId + " a été supprimée avec succès");
+    }
+
+
 }
