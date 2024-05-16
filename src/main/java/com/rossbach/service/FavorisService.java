@@ -1,6 +1,7 @@
 package com.rossbach.service;
 
 import com.rossbach.entities.Favoris;
+import com.rossbach.entities.Vue;
 import com.rossbach.repositories.FavorisRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,5 +39,24 @@ public class FavorisService {
 
     public void deleteFavorisByUserId(int userId){
         this.favorisRepository.deleteByUserId(userId);
+    }
+
+    // Verif si l'userId existe bien dans la table Vue
+    public boolean checkIfUserIdExistsInFavoris(int userId) {
+        List<Favoris> favorises = favorisRepository.findByUserId(userId);
+        return !favorises.isEmpty();
+    }
+
+
+    // Verif si une vue est bien associé à cet utilisateur
+    public boolean checkIfFavorisBelongsToUser(int userId, int favorisId) {
+        Optional<Favoris> favorisOptional = favorisRepository.findByIdAndUserId(favorisId, userId);
+        return favorisOptional.isPresent();
+    }
+
+    // Supprimer une vue avec un userId
+    public void deleteSingleFavorisByUserId(int userId, int favorisId) {
+        Optional<Favoris> favorisOptional = favorisRepository.findByIdAndUserId(favorisId, userId);
+        favorisOptional.ifPresent(vue -> favorisRepository.delete(vue));
     }
 }

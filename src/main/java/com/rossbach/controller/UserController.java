@@ -21,7 +21,7 @@ public class UserController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(consumes =  APPLICATION_JSON_VALUE)
-    public void createUser(@RequestBody User user) {
+    public void createUser(@RequestBody User user)  {
         this.userService.createUser(user);
     }
 
@@ -41,6 +41,7 @@ public class UserController {
     public List<User> showUsers() {
         return this.userService.showUsers();
     }
+
 
 
 

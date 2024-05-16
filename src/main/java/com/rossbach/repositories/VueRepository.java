@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface VueRepository extends JpaRepository<Vue, Integer> {
     List<Vue> findByUserId(int userId);
     void deleteByUserId(int userId);
-    Optional<Vue> findByIdAndUserId(int id, int userId);
+    Optional<Vue> findByIdAndUserId(int vueId, int userId);
 }
