@@ -3,6 +3,7 @@ package com.rossbach.service;
 import com.rossbach.entities.User;
 import com.rossbach.repositories.UserRepository;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public class UserService {
         User userDansLaBDD = this.userRepository.findByEmail(user.getEmail());
         User otherUserDansLaBDD = this.userRepository.findByUsername(user.getUsername());
         if (userDansLaBDD == null && otherUserDansLaBDD == null) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
             this.userRepository.save(user);
         }
         else {
